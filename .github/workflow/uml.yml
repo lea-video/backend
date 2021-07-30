@@ -1,0 +1,30 @@
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  eslint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: install goplantuml
+        run: |
+          go get github.com/jfeliu007/goplantuml/parser
+          go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+          cd $GOPATH/src/github.com/jfeliu007/goplantuml
+          go install ./...
+
+      - name: run goplantuml
+        run: goplantuml -recursive -show-aggregations ./ > diagram.puml
+
+      - name: Generate PNG Diagrams
+        uses: cloudbees/plantuml-github-action@master
+        with:
+            args: -v -tpng diagram.puml
+
+      - name: debug
+        run: |
+          ls -lah
+          cat diagram.puml

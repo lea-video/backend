@@ -10,6 +10,7 @@ type User struct {
 }
 
 type Session struct {
+	User          *User
 	IsDirectLogin bool
 }
 

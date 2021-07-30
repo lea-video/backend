@@ -1,8 +1,9 @@
 package types
 
 type Celebrity struct {
-	Name string
-	Tags []*Tag
+	Name        string
+	ProfileLink string
+	Tags        []*Tag
 }
 
 type Playlist struct {

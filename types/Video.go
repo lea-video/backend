@@ -3,13 +3,19 @@ package types
 type Playable interface {
 	GetStart() uint
 	GetLength() uint
-	GetFormat() []*Format
-	doSnip(title Title, start uint, snipLength uint) *Snippet
+	GetAudioFormat() []*AudioFormat
+	GetVideoFormat() []*VideoFormat
+	GetSubtitleFormat() []*SubtitleFormat
+	IsSnippet() bool
+	DoSnip(title Title, snipStart uint, snipLength uint) *Snippet
 }
+
 type Video struct {
-	Title   *Title
-	Length  uint
-	Formats []*Format
+	Title     *Title
+	Length    uint
+	AudioF    []*AudioFormat
+	VideoF    []*VideoFormat
+	SubtitleF []*SubtitleFormat
 }
 
 func (V *Video) GetStart() uint {
@@ -18,18 +24,29 @@ func (V *Video) GetStart() uint {
 func (V *Video) GetLength() uint {
 	return V.Length
 }
-func (V *Video) GetFormat() []*Format {
-	return V.Formats
+func (V *Video) GetAudioFormat() []*AudioFormat {
+	return V.AudioF
 }
-func (V *Video) doSnip(title Title, start uint, snipLength uint) *Snippet {
-	vid := Video{&title, snipLength, nil}
-	return &Snippet{vid, V, start}
+func (V *Video) GetVideoFormat() []*VideoFormat {
+	return V.VideoF
+}
+func (V *Video) GetSubtitleFormat() []*SubtitleFormat {
+	return V.SubtitleF
+}
+func (V *Video) DoSnip(title Title, snipStart uint, snipLength uint) *Snippet {
+	return &Snippet{
+		Title:  &title,
+		Start:  snipStart,
+		Length: snipLength,
+		Parent: V,
+	}
 }
 
 type Snippet struct {
-	Video
-	Parent *Video
+	Title  *Title
 	Start  uint
+	Length uint
+	Parent *Video
 }
 
 func (S *Snippet) GetStart() uint {
@@ -38,10 +55,20 @@ func (S *Snippet) GetStart() uint {
 func (S *Snippet) GetLength() uint {
 	return S.Length
 }
-func (S *Snippet) GetFormat() []*Format {
-	return S.Parent.Formats
+func (S *Snippet) GetAudioFormat() []*AudioFormat {
+	return S.Parent.AudioF
 }
-func (S *Snippet) doSnip(title Title, start uint, snipLength uint) *Snippet {
-	vid := Video{&title, snipLength, nil}
-	return &Snippet{vid, S.Parent, S.Start + start}
+func (S *Snippet) GetVideoFormat() []*VideoFormat {
+	return S.Parent.VideoF
+}
+func (S *Snippet) GetSubtitleFormat() []*SubtitleFormat {
+	return S.Parent.SubtitleF
+}
+func (S *Snippet) DoSnip(title Title, snipStart uint, snipLength uint) *Snippet {
+	return &Snippet{
+		Title:  &title,
+		Start:  S.Start + snipStart,
+		Length: snipLength,
+		Parent: S.Parent,
+	}
 }

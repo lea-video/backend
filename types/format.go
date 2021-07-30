@@ -7,17 +7,17 @@ type Format struct {
 }
 
 type AudioFormat struct {
+	*Format
 	Bitrate  uint
 	Encoding string
-	Format
 }
 
 type VideoFormat struct {
+	*Format
 	Bitrate  uint
 	Encoding string
-	Format
 }
 
 type SubtitleFormat struct {
-	Format
+	*Format
 }

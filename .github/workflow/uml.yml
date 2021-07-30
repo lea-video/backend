@@ -1,10 +1,10 @@
-name: Lint
+name: Generate UML
 
 on: [push, pull_request]
 
 jobs:
-  eslint:
-    name: Lint
+  genUML:
+    name: GenUML
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

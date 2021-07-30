@@ -27,7 +27,8 @@ jobs:
         with:
             args: -v -tpng diagram.puml
 
-      - name: debug
-        run: |
-          ls -lah
-          cat diagram.puml
+      - name: Archive diagram.png
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: diagram.png

@@ -58,6 +58,19 @@ type Credential interface {
 	getSession() *Session
 }
 
+type Password struct {
+	hash string
+	salt string
+}
+
+func (p *Password) isValid() bool {
+	return false
+}
+
+func (p *Password) getSession() *Session {
+	return nil
+}
+
 type User struct {
 	displayName string
 	username    string
@@ -76,18 +89,18 @@ type Video struct {
 }
 
 type Variation struct {
-	music
-	movie
 	videos []*Video
 	tags   []*Tag
 }
 
-type music struct {
+type Music struct {
+	Variation
 	title  Title
 	artist []*Celebrity
 }
 
-type movie struct {
+type Movie struct {
+	Variation
 	title     Title
 	actor     []*Celebrity
 	regisseur []*Celebrity

@@ -18,8 +18,6 @@ jobs:
         run: |
           go get github.com/jfeliu007/goplantuml/parser
           go get github.com/jfeliu007/goplantuml/cmd/goplantuml
-          cd $GOPATH/src/github.com/jfeliu007/goplantuml
-          go install ./...
 
       - name: run goplantuml
         run: goplantuml -recursive -show-aggregations ./ > diagram.puml

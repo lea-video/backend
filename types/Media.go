@@ -22,4 +22,5 @@ type MusikMedia struct {
 	Variants   []*Video
 	Artists    []*Celebrity
 	CleanAudio *VideoMedia
+	BestVideo  *VideoMedia
 }

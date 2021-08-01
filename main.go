@@ -4,8 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/lea-video/backend/storage"
 	"github.com/lea-video/backend/types"
 )
+
+func panicOn(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 func addVideo() *types.VideoMedia {
 	title := types.Title{
@@ -32,13 +39,7 @@ func addVideo() *types.VideoMedia {
 	}
 }
 
-func panicOn(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func main() {
+func demoAddVideo() {
 	// Create Video
 	v := addVideo()
 	fmt.Println("zero: " + v.String())
@@ -59,4 +60,19 @@ func main() {
 	b, err = json.Marshal(dat)
 	panicOn(err)
 	fmt.Println("second: " + string(b))
+}
+
+func demoStorage() {
+	s := storage.NewVideoStorage(&types.MySQL{}, 3)
+	s.GetVideo("10")
+	s.GetVideo("20")
+	s.GetVideo("30")
+	s.GetVideo("30")
+	s.GetVideo("40")
+	s.GetVideo("50")
+	fmt.Println(s)
+}
+
+func main() {
+	demoStorage()
 }

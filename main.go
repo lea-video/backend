@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/lea-video/backend/types"
@@ -31,7 +32,31 @@ func addVideo() *types.VideoMedia {
 	}
 }
 
+func panicOn(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
+	// Create Video
 	v := addVideo()
-	fmt.Println(v)
+	fmt.Println("zero: " + v.String())
+
+	// Build JSON from Video
+	b, err := json.Marshal(v)
+	panicOn(err)
+	fmt.Println("first: " + string(b))
+
+	// Modify original VIdeo to validate that the second log is not just a relog
+	v.Title = nil
+
+	// Load Video from JSON
+	dat := types.VideoMedia{}
+	err = json.Unmarshal(b, &dat)
+	panicOn(err)
+	// Build another JSON to log
+	b, err = json.Marshal(dat)
+	panicOn(err)
+	fmt.Println("second: " + string(b))
 }

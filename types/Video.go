@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 type Playable interface {
 	GetStart() uint
 	GetLength() uint
@@ -11,11 +13,15 @@ type Playable interface {
 }
 
 type Video struct {
-	Title     *Title
-	Length    uint
-	AudioF    []*AudioFormat
-	VideoF    []*VideoFormat
-	SubtitleF []*SubtitleFormat
+	Title     *Title            `json:"title"`
+	Length    uint              `json:"length"`
+	AudioF    []*AudioFormat    `json:"audioFormats"`
+	VideoF    []*VideoFormat    `json:"videoFormats"`
+	SubtitleF []*SubtitleFormat `json:"subtitleFormats"`
+}
+
+func (v *Video) String() string {
+	return fmt.Sprintf("Video with title '%s' and Length of %dsec", v.Title, v.Length)
 }
 
 func (V *Video) GetStart() uint {
@@ -43,10 +49,10 @@ func (V *Video) DoSnip(title Title, snipStart uint, snipLength uint) *Snippet {
 }
 
 type Snippet struct {
-	Title  *Title
-	Start  uint
-	Length uint
-	Parent *Video
+	Title  *Title `json:"title"`
+	Start  uint   `json:"start"`
+	Length uint   `json:"length"`
+	Parent *Video `json:"parent"`
 }
 
 func (S *Snippet) GetStart() uint {

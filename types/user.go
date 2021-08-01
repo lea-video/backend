@@ -1,17 +1,17 @@
 package types
 
 type User struct {
-	Username    string
-	DisplayName string
-	Credentials []*Credential
-	Playlists   []*Playlist
-	Snippets    []*Snippet
-	Follows     []*Celebrity
+	Username    string        `json:"username"`
+	DisplayName string        `json:"displayName"`
+	Credentials []*Credential `json:"credentials"`
+	Playlists   []*Playlist   `json:"playlists"`
+	Snippets    []*Snippet    `json:"snippets"`
+	Follows     []*Celebrity  `json:"follows"`
 }
 
 type Session struct {
-	User          *User
-	IsDirectLogin bool
+	User          *User `json:"user"`
+	IsDirectLogin bool  `json:"isDirectLogin"`
 }
 
 type Credential interface {
@@ -20,7 +20,7 @@ type Credential interface {
 }
 
 type RememberMeToken struct {
-	Token string
+	Token string `json:"token"`
 }
 
 func (rm *RememberMeToken) GetSession() *Session {
@@ -31,8 +31,8 @@ func (rm *RememberMeToken) IsValid() bool {
 }
 
 type Password struct {
-	Hash string
-	Salt string
+	Hash string `json:"hash"`
+	Salt string `json:"salt"`
 }
 
 func (p *Password) GetSession() *Session {

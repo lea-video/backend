@@ -13,6 +13,7 @@ type Playable interface {
 }
 
 type Video struct {
+	ID	      string	        `json:"id"`
 	Title     *Title            `json:"title"`
 	Length    uint              `json:"length"`
 	AudioF    []*AudioFormat    `json:"audioFormats"`

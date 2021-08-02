@@ -1,38 +1,45 @@
 package storage
 
 import (
-	"fmt"
-
 	"github.com/lea-video/backend/types"
 )
 
 type VideoStorage struct {
-	db    types.DBInterface
-	cache []*types.Video
-	items map[string]int
-	pos   int
+	db       types.DBInterface
+	cache    []*types.Video
+	idMap    map[string]int
+	revIdMap map[int]string
+	pos      int
 }
 
 func NewVideoStorage(db types.DBInterface, size int) *VideoStorage {
 	return &VideoStorage{
-		db:    db,
-		cache: make([]*types.Video, size),
-		items: make(map[string]int),
+		db:       db,
+		cache:    make([]*types.Video, size),
+		idMap:    make(map[string]int),
+		revIdMap: make(map[int]string),
 	}
 }
 
 func (vs *VideoStorage) GetVideo(id string) *types.Video {
-	fmt.Printf("GetVideo(%s)\n", id)
-	cacheIdx := vs.items[id]
-	if cacheIdx != 0 {
-		fmt.Println("cache hit")
+	cacheIdx, isCached := vs.idMap[id]
+	if isCached {
 		return vs.cache[cacheIdx]
 	}
+	// fetch video
 	video := vs.db.GetVideo(id)
-	cacheIdx = (vs.pos + 1) % len(vs.cache)
-	fmt.Printf("fetching from db and saving in %d\n", cacheIdx)
-	delete(vs.items, vs.cache[cacheIdx].ID)
-	vs.items[id] = cacheIdx
+	// calculate and save new vs.pos
+	cacheIdx = vs.pos
+	vs.pos = (vs.pos + 1) % len(vs.cache)
+	// fetch id of prev cached item and delete
+	prevCached, hadPrev := vs.revIdMap[cacheIdx]
+	if hadPrev {
+		delete(vs.idMap, prevCached)
+	}
+	// cache new item information
+	vs.idMap[id] = cacheIdx
+	vs.revIdMap[cacheIdx] = id
 	vs.cache[cacheIdx] = video
+	// done
 	return video
 }

@@ -68,8 +68,10 @@ func demoStorage() {
 	s.GetVideo("20")
 	s.GetVideo("30")
 	s.GetVideo("30")
+	fmt.Println(s)
 	s.GetVideo("40")
 	s.GetVideo("50")
+	s.GetVideo("40")
 	fmt.Println(s)
 }
 

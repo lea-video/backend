@@ -26,14 +26,43 @@ components:
       properties:
         title:
           $ref: '#/components/schemas/Title'
-        videos:
+        tags:
           type: array
-          items: 
-            $ref: '#/components/schemas/Video'
+          items:
+            $ref: '#/components/schemas/Tag'
     VideoMedia:
       allOf:
         - $ref: '#/components/schemas/Media'
         - type: object
+          properties:
+            Video:
+              $ref: '#/components/schemas/Video'
+    MusikCoverMedia:
+      allOf:
+        - $ref: '#/components/schemas/Media'
+        - type: object
+          properties:
+            Song:
+              $ref: '#/components/schemas/MusikMedia'
+            Video:
+              $ref: '#/components/schemas/Video'
+    MusikMedia:
+      allOf:
+        - $ref: '#/components/schemas/Media'
+        - type: object
+          properties:
+            Variants:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Video'
+            Artists:
+              type: array
+              items:
+                $ref: '#/components/schemas/Celebrity'
+            CleanAudio:
+              $ref: '#/components/schemas/Video'
+            BestVideo:
+              $ref: '#/components/schemas/Video'
     Video:
       type: object
       properties:
@@ -41,13 +70,37 @@ components:
           $ref: '#/components/schemas/Title'
         formats:
           $ref: '#/components/schemas/Formats'
+    Snippet:
+      allOf:
+        - $ref: '#/components/schemas/Video'
+        - type: object
+          properties:
+            Parent:
+              $ref: '#/components/schemas/Video'
+            StartTime:
+              type: integer
+            Length:
+              type: integer
     Formats:
       type: object
+      properties:
+        filename:
+          type: string
+        filesize:
+          type: integer
+        language:
+          type: string
     Title:
       type: object
       properties:
         title: 
           type: string
+        language:
+          type: string
+    Tag:
+      type: object
+    Celebrity:
+      type: object
     Playlist:
       type: object
       properties:
@@ -64,5 +117,5 @@ components:
           type: integer
         media:
           oneOf:
-            - $ref: '#/components/schemas/Media'
+            - $ref: '#/components/schemas/MusikMedia'
             - $ref: '#/components/schemas/VideoMedia'

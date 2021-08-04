@@ -1,0 +1,68 @@
+openapi: '3.0.2'
+info:
+  title: LEAV
+  version: '1.0'
+servers:
+  - url: /v1
+  - url: https://editor.swagger.io/
+
+paths:
+  /videos:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+
+components:
+  schemas:
+    Media:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        videos:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Video'
+    VideoMedia:
+      allOf:
+        - $ref: '#/components/schemas/Media'
+        - type: object
+    Video:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        formats:
+          $ref: '#/components/schemas/Formats'
+    Formats:
+      type: object
+    Title:
+      type: object
+      properties:
+        title: 
+          type: string
+    Playlist:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        items:
+          type: array
+          items:
+           $ref: '#/components/schemas/PlaylistItem'
+    PlaylistItem:
+      type: object
+      properties:
+        index:
+          type: integer
+        media:
+          oneOf:
+            - $ref: '#/components/schemas/Media'
+            - $ref: '#/components/schemas/VideoMedia'

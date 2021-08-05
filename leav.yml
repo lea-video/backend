@@ -7,7 +7,7 @@ servers:
   - url: https://editor.swagger.io/
 
 paths:
-  /videos:
+  /playlist:
     get:
       responses:
         '200':
@@ -17,7 +17,20 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Video'
+                  $ref: '#/components/schemas/Playlist'
+  /playlist/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id  
+          type: string
+      responses:
+        '200':
+          description: nice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
 
 components:
   schemas:

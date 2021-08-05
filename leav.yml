@@ -37,15 +37,8 @@ components:
           properties:
             Video:
               $ref: '#/components/schemas/Video'
-    MusikCoverMedia:
-      allOf:
-        - $ref: '#/components/schemas/Media'
-        - type: object
-          properties:
-            Song:
-              $ref: '#/components/schemas/MusikMedia'
-            Video:
-              $ref: '#/components/schemas/Video'
+            Sequel:
+              $ref: '#/components/schemas/VideoMedia'
     MusikMedia:
       allOf:
         - $ref: '#/components/schemas/Media'
@@ -54,15 +47,19 @@ components:
             Variants:
               type: array
               items: 
-                $ref: '#/components/schemas/Video'
+                $ref: '#/components/schemas/VideoMedia'
+            Covers:
+              type: array
+              items: 
+                $ref: '#/components/schemas/VideoMedia'
             Artists:
               type: array
               items:
                 $ref: '#/components/schemas/Celebrity'
             CleanAudio:
-              $ref: '#/components/schemas/Video'
+              $ref: '#/components/schemas/VideoMedia'
             BestVideo:
-              $ref: '#/components/schemas/Video'
+              $ref: '#/components/schemas/VideoMedia'
     Video:
       type: object
       properties:
@@ -119,3 +116,4 @@ components:
           oneOf:
             - $ref: '#/components/schemas/MusikMedia'
             - $ref: '#/components/schemas/VideoMedia'
+            - $ref: '#/components/schemas/Playlist'

@@ -1,0 +1,23 @@
+Abbilden von:
+* Filme
+    * Verlinkung von Schauspielern
+    * Verlinkung mehrsprachiger Video & Audio Tracks
+    * Filmreihen (e.g. Triologien)
+    * IMDB-Integration
+* Serien
+    * Episoden und Folgen
+    * Mehrsprachigkeit
+    * IMDB-Integration
+* Playlisten
+    * Mixed Playlisten (e.g. Youtube und Musik)
+    * Sowohl alg. Lied als auch e.g. Coverversion definierbar
+* Musik
+    * Varianten (e.g. Live, Studio, Lyric)
+    * Verlinkung mit original Titel (e.g. Spotify ID)
+    * Erkennung von Covern
+* (YouTube) Videos
+* Diashow / Bilder
+* Snippets
+    * aus Videos
+    * aus YT-Video als Musik (Variante)
+    * aus Film als Musik

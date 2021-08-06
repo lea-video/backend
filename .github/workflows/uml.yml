@@ -1,0 +1,38 @@
+name: Generate UML
+
+on: [push, pull_request]
+
+jobs:
+  genUML:
+    name: GenUML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
+
+      - name: install goplantuml
+        run: |
+          go get github.com/jfeliu007/goplantuml/parser
+          go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+      - name: run goplantuml
+        run: goplantuml -recursive -show-aggregations ./ > diagram.puml
+
+      - name: Generate PNG Diagrams
+        uses: cloudbees/plantuml-github-action@master
+        with:
+            args: -v -tpng diagram.puml
+          
+      - name: cleanup
+        run: |
+          rm diagram.puml
+          mv diagram.png ./api/diagram.png
+
+      - name: Upload diagram.png
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: 'api'
+          message: 'Update UML-Diagram'

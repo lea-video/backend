@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model</OriginalElement>
+  <nodes>
+    <node x="602.5822072072069" y="934.0">model.meta.Album</node>
+    <node x="247.375" y="626.0">model.meta.Season</node>
+    <node x="712.3322072072069" y="220.0">model.core.Media</node>
+    <node x="940.825" y="22.5">model.utility.Track</node>
+    <node x="55.403603603603585" y="45.0">model.core.Playable</node>
+    <node x="631.7916666666666" y="560.0">model.meta.Song</node>
+    <node x="0.0" y="626.0">model.core.Playlist</node>
+    <node x="279.6536036036036" y="264.0">model.meta.Series</node>
+    <node x="871.7916666666667" y="637.0">model.meta.ImageSet</node>
+    <node x="12.793806306306408" y="275.5">model.core.PlaylistItem</node>
+    <node x="445.79166666666663" y="604.0">model.meta.Movie</node>
+    <node x="686.825" y="0.0">model.core.Snippet</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.meta.Season" target="model.meta.Series" relationship="DEPENDENCY">
+      <point x="32.278603603603585" y="-95.0" />
+      <point x="0.0" y="84.0" />
+    </edge>
+    <edge source="model.meta.Series" target="model.meta.Season" relationship="DEPENDENCY">
+      <point x="15.0" y="84.0" />
+      <point x="47.278603603603585" y="-95.0" />
+    </edge>
+    <edge source="model.meta.Song" target="model.core.Media" relationship="DEPENDENCY">
+      <point x="110.0003333333334" y="101.5" />
+      <point x="1058.292" y="822.5" />
+      <point x="1058.292" y="497.0" />
+      <point x="814.332" y="497.0" />
+      <point x="-15.000207207206927" y="128.0" />
+    </edge>
+    <edge source="model.core.Playlist" target="model.core.PlaylistItem" relationship="CREATE">
+      <point x="15.793806306306408" y="-95.0" />
+      <point x="15.0" y="72.5" />
+    </edge>
+    <edge source="model.core.PlaylistItem" target="model.core.Playable" relationship="DEPENDENCY">
+      <point x="30.109797297297177" y="-72.5" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="model.meta.Series" target="model.meta.Season" relationship="TO_MANY">
+      <point x="-88.5" y="15.0" />
+      <point x="262.1536036036036" y="363.0" />
+      <point x="-73.72139639639641" y="-95.0" />
+    </edge>
+    <edge source="model.meta.Song" target="model.core.Media" relationship="TO_ONE">
+      <point x="-97.79166666666663" y="-161.0" />
+      <point x="644.0" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.core.Playlist" target="model.core.Playable" relationship="REALIZATION">
+      <point x="104.5" y="0.0" />
+      <point x="232.0" y="721.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.meta.ImageSet" target="model.core.Playable" relationship="REALIZATION">
+      <point x="3.3333333328755543E-4" y="-84.0" />
+      <point x="956.292" y="518.0" />
+      <point x="232.0" y="518.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.meta.Song" target="model.core.Media" relationship="TO_MANY">
+      <point x="-97.79166666666663" y="-161.0" />
+      <point x="644.0" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.meta.Movie" target="model.core.Media" relationship="TO_MANY">
+      <point x="-14.999666666666599" y="-117.0" />
+      <point x="513.792" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.core.Media" target="model.core.Snippet" relationship="CREATE">
+      <point x="15.0" y="-128.0" />
+      <point x="40.507207207206875" y="84.0" />
+    </edge>
+    <edge source="model.meta.Season" target="model.core.Media" relationship="TO_MANY">
+      <point x="0.0" y="-95.0" />
+      <point x="335.875" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.meta.Movie" target="model.core.Media" relationship="DEPENDENCY">
+      <point x="15.000333333333401" y="-117.0" />
+      <point x="543.792" y="572.0" />
+      <point x="305.875" y="572.0" />
+      <point x="305.875" y="497.0" />
+      <point x="814.332" y="497.0" />
+      <point x="-15.000207207206927" y="128.0" />
+    </edge>
+    <edge source="model.meta.Season" target="model.meta.Series" relationship="TO_ONE">
+      <point x="-45.0" y="-95.0" />
+      <point x="-77.27860360360359" y="84.0" />
+    </edge>
+    <edge source="model.core.PlaylistItem" target="model.core.Playable" relationship="TO_ONE">
+      <point x="45.10979729729718" y="-72.5" />
+      <point x="15.0" y="39.0" />
+    </edge>
+    <edge source="model.meta.Movie" target="model.core.Playable" relationship="REALIZATION">
+      <point x="3.3333333340124227E-4" y="-117.0" />
+      <point x="528.792" y="518.0" />
+      <point x="232.0" y="518.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.meta.Album" target="model.meta.Song" relationship="TO_MANY">
+      <point x="59.20945945945971" y="-84.0" />
+      <point x="0.0" y="161.0" />
+    </edge>
+    <edge source="model.meta.Season" target="model.core.Media" relationship="DEPENDENCY">
+      <point x="-15.0" y="-95.0" />
+      <point x="320.875" y="572.0" />
+      <point x="305.875" y="572.0" />
+      <point x="305.875" y="497.0" />
+      <point x="814.332" y="497.0" />
+      <point x="-15.000207207206927" y="128.0" />
+    </edge>
+    <edge source="model.core.Media" target="model.utility.Track" relationship="DEPENDENCY">
+      <point x="117.0" y="0.0" />
+      <point x="1006.825" y="348.0" />
+      <point x="0.0" y="61.5" />
+    </edge>
+    <edge source="model.meta.Album" target="model.meta.Song" relationship="DEPENDENCY">
+      <point x="74.20945945945971" y="-84.0" />
+      <point x="15.0" y="161.0" />
+    </edge>
+    <edge source="model.meta.ImageSet" target="model.core.Media" relationship="TO_MANY">
+      <point x="-14.999666666666712" y="-84.0" />
+      <point x="941.292" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.meta.Song" target="model.core.Playable" relationship="REALIZATION">
+      <point x="3.3333333340124227E-4" y="-161.0" />
+      <point x="741.792" y="518.0" />
+      <point x="232.0" y="518.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.core.Media" target="model.core.Playable" relationship="REALIZATION">
+      <point x="-2.0720720692679606E-4" y="128.0" />
+      <point x="829.332" y="518.0" />
+      <point x="232.0" y="518.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.core.Snippet" target="model.core.Media" relationship="GENERALIZATION">
+      <point x="25.507207207206875" y="84.0" />
+      <point x="0.0" y="-128.0" />
+    </edge>
+    <edge source="model.meta.Season" target="model.core.Playable" relationship="REALIZATION">
+      <point x="-88.5" y="0.0" />
+      <point x="232.0" y="721.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.meta.Series" target="model.core.Playable" relationship="REALIZATION">
+      <point x="-88.49960360360359" y="0.0" />
+      <point x="232.0" y="348.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.core.Playlist" target="model.core.PlaylistItem" relationship="TO_MANY">
+      <point x="0.7938063063064078" y="-95.0" />
+      <point x="0.0" y="72.5" />
+    </edge>
+    <edge source="model.core.Snippet" target="model.core.Media" relationship="TO_ONE">
+      <point x="-109.5" y="84.0" />
+      <point x="694.325" y="539.0" />
+      <point x="844.332" y="539.0" />
+      <point x="14.999792792793073" y="128.0" />
+    </edge>
+    <edge source="model.meta.Album" target="model.core.Playable" relationship="REALIZATION">
+      <point x="-80.00020720720693" y="0.0" />
+      <point x="232.0" y="1018.0" />
+      <point x="232.0" y="84.0" />
+      <point x="80.00039639639641" y="0.0" />
+    </edge>
+    <edge source="model.meta.ImageSet" target="model.core.Media" relationship="DEPENDENCY">
+      <point x="15.000333333333288" y="-84.0" />
+      <point x="971.292" y="497.0" />
+      <point x="814.332" y="497.0" />
+      <point x="-15.000207207206927" y="128.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.7887700534759359" showDependencies="true" x="536.5" y="551.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

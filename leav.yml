@@ -22,8 +22,10 @@ paths:
     get:
       parameters:
         - in: path
-          name: id  
-          type: string
+          name: id
+          schema:
+            type: string
+          required: true
       responses:
         '200':
           description: nice
@@ -34,88 +36,197 @@ paths:
 
 components:
   schemas:
-    Media:
+# General Stuff
+    UUID:
+      type: string
+    Track:
       type: object
       properties:
-        title:
-          $ref: '#/components/schemas/Title'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-    VideoMedia:
-      allOf:
-        - $ref: '#/components/schemas/Media'
-        - type: object
-          properties:
-            Video:
-              $ref: '#/components/schemas/Video'
-            Sequel:
-              $ref: '#/components/schemas/VideoMedia'
-    MusikMedia:
-      allOf:
-        - $ref: '#/components/schemas/Media'
-        - type: object
-          properties:
-            Variants:
-              type: array
-              items: 
-                $ref: '#/components/schemas/VideoMedia'
-            Covers:
-              type: array
-              items: 
-                $ref: '#/components/schemas/VideoMedia'
-            Artists:
-              type: array
-              items:
-                $ref: '#/components/schemas/Celebrity'
-            CleanAudio:
-              $ref: '#/components/schemas/VideoMedia'
-            BestVideo:
-              $ref: '#/components/schemas/VideoMedia'
-    Video:
-      type: object
-      properties:
-        title:
-          $ref: '#/components/schemas/Title'
-        formats:
-          $ref: '#/components/schemas/Formats'
-    Snippet:
-      allOf:
-        - $ref: '#/components/schemas/Video'
-        - type: object
-          properties:
-            Parent:
-              $ref: '#/components/schemas/Video'
-            StartTime:
-              type: integer
-            Length:
-              type: integer
-    Formats:
-      type: object
-      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         filename:
           type: string
         filesize:
           type: integer
         language:
           type: string
+        audioBitrate:
+          type: integer
+        audioEncoding:
+          type: string
+        videoBitrate:
+          type: integer
+        videoEncoding:
+          type: string
     Title:
       type: object
       properties:
-        title: 
-          type: string
-        language:
-          type: string
+        id:
+          $ref: '#/components/schemas/UUID'
+        default:
+          type: object
+          properties:
+            title: 
+              type: string
+            language:
+              type: string
+        other:
+          type: array
+          items:
+            type: object
+            properties:
+              title: 
+                type: string
+              language:
+                type: string
     Tag:
       type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        Title:
+          $ref: '#/components/schemas/Title'
     Celebrity:
       type: object
-    Playlist:
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+# Media Types
+    Media:
       type: object
       properties:
         title:
           $ref: '#/components/schemas/Title'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Snippet:
+      allOf:
+        - $ref: '#/components/schemas/Media'
+        - type: object
+          properties:
+            parent:
+              $ref: '#/components/schemas/Media'
+            starttime:
+              type: integer
+            length:
+              type: integer
+    Series:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Season'
+    Season:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        series:
+          $ref: '#/components/schemas/Series'
+        episode:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+    Movie:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        sequel:
+          $ref: '#/components/schemas/Movie'
+        cuts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+    Song:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Celebrity'
+        featuring:
+          type: array
+          items:
+            $ref: '#/components/schemas/Celebrity'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        covers:
+          type: array
+          items:
+            type: object
+            properties:
+              artist:
+                $ref: '#/components/schemas/Celebrity'
+              cover:
+                $ref: '#/components/schemas/Media'
+        cleanAudio:
+            $ref: '#/components/schemas/Media'
+        defaultVideo:
+            $ref: '#/components/schemas/Media'
+    Album:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Song'
+    ImageSet:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+# Playable Interface (All Media Types)
+    Playable:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UUID'
+        - oneOf:
+          - $ref: '#/components/schemas/Series'
+          - $ref: '#/components/schemas/Season'
+          - $ref: '#/components/schemas/Movie'
+          - $ref: '#/components/schemas/Song'
+          - $ref: '#/components/schemas/Album'
+          - $ref: '#/components/schemas/ImageSet'
+          - $ref: '#/components/schemas/Media'
+          - $ref: '#/components/schemas/Snippet'
+# Playlist
+    Playlist:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        title:
+          $ref: '#/components/schemas/Title'
+        tags:
+          $ref: '#/components/schemas/Tag'
         items:
           type: array
           items:
@@ -125,8 +236,9 @@ components:
       properties:
         index:
           type: integer
-        media:
-          oneOf:
-            - $ref: '#/components/schemas/MusikMedia'
-            - $ref: '#/components/schemas/VideoMedia'
-            - $ref: '#/components/schemas/Playlist'
+        removedAt:
+          type: integer
+        addedAt:
+          type: integer
+        playable:
+           $ref: '#/components/schemas/Playable'

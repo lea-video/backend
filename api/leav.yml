@@ -58,18 +58,15 @@ components:
           type: integer
         videoEncoding:
           type: string
+    TitleItem:
+      type: object
     Title:
       type: object
       properties:
         id:
           $ref: '#/components/schemas/UUID'
         default:
-          type: object
-          properties:
-            title: 
-              type: string
-            language:
-              type: string
+          type: string
         other:
           type: array
           items:
@@ -226,7 +223,9 @@ components:
         title:
           $ref: '#/components/schemas/Title'
         tags:
-          $ref: '#/components/schemas/Tag'
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
         items:
           type: array
           items:
@@ -240,5 +239,5 @@ components:
           type: integer
         addedAt:
           type: integer
-        playable:
+        item:
            $ref: '#/components/schemas/Playable'

@@ -9,6 +9,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -16,9 +18,41 @@ import (
 )
 
 func main() {
+	// TODO: delete
+	test()
+
 	log.Printf("Server started")
-
 	router := sw.NewRouter()
-
 	log.Fatal(http.ListenAndServe(":8080", router))
+}
+
+func test() {
+	fmt.Println("Marshal empty Playlist")
+	p := sw.NewPlaylist(sw.NewTitle("Playlist 1"))
+	b, err := json.Marshal(p)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(b))
+
+	fmt.Println("Marshal Playlist with Song and Album")
+	p.AddItem(sw.NewSong(sw.NewTitle("Test Song")))
+	p.AddItem(sw.NewAlbum(sw.NewTitle("Test Album")))
+	b, err = json.Marshal(p)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(b))
+
+	fmt.Println("Unmarshal Playlist with Song and Album")
+	var d sw.Playlist
+	err = json.Unmarshal(b, &d)
+	if err != nil {
+		panic(err)
+	}
+	b, err = json.Marshal(d)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(b))
 }

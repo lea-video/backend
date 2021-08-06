@@ -7,7 +7,7 @@ jobs:
     name: GenUML
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-go@v2
         with:
@@ -29,10 +29,10 @@ jobs:
       - name: cleanup
         run: |
           rm diagram.puml
-          mv diagram.png ./api/diagram.png
+          mv diagram.png ./api/uml_diagram.png
 
       - name: Upload diagram.png
         uses: EndBug/add-and-commit@v7
         with:
-          add: 'api'
+          add: 'api/uml_diagram.png'
           message: 'Update UML-Diagram'

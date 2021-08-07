@@ -13,5 +13,12 @@ type Celebrity struct {
 
 	Name string `json:"name,omitempty"`
 
-	Tags []Tag `json:"tags,omitempty"`
+	Tags []*Tag `json:"tags,omitempty"`
+}
+
+func NewCelebrity(name string) *Celebrity {
+	return &Celebrity{
+		Name: name,
+		Tags: make([]*Tag, 0),
+	}
 }

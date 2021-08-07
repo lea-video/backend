@@ -34,6 +34,10 @@ func (*Song) getType() string {
 	return "Song"
 }
 
+func (s *Song) AddCover(c *Celebrity, m *Media) {
+	s.Covers = append(s.Covers, &SongCover{Artist: c, Cover: m})
+}
+
 func NewSong(title *Title) *Song {
 	return &Song{
 		Title:     title,

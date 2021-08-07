@@ -36,7 +36,9 @@ func test() {
 	fmt.Println(string(b))
 
 	fmt.Println("Marshal Playlist with Song and Album")
-	p.AddItem(sw.NewSong(sw.NewTitle("Test Song")))
+	s := sw.NewSong(sw.NewTitle("Test Song"))
+	s.AddCover(sw.NewCelebrity("Cover Artist"), sw.NewMedia(sw.NewTitle("Cover of Test Song")))
+	p.AddItem(s)
 	p.AddItem(sw.NewAlbum(sw.NewTitle("Test Album")))
 	b, err = json.Marshal(p)
 	if err != nil {

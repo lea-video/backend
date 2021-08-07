@@ -17,11 +17,17 @@ type Song struct {
 
 	Variants []*Media `json:"variants,omitempty"`
 
-	Covers []*SongCovers `json:"covers,omitempty"`
+	Covers []*SongCover `json:"covers,omitempty"`
 
 	CleanAudio *Media `json:"cleanAudio,omitempty"`
 
 	DefaultVideo *Media `json:"defaultVideo,omitempty"`
+}
+
+type SongCover struct {
+	Artist *Celebrity `json:"artist,omitempty"`
+
+	Cover *Media `json:"cover,omitempty"`
 }
 
 func (*Song) getType() string {
@@ -34,6 +40,6 @@ func NewSong(title *Title) *Song {
 		Artists:   make([]*Celebrity, 0),
 		Featuring: make([]*Celebrity, 0),
 		Variants:  make([]*Media, 0),
-		Covers:    make([]*SongCovers, 0),
+		Covers:    make([]*SongCover, 0),
 	}
 }

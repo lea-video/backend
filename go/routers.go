@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	util "github.com/lea-video/backend/go/utility"
 )
 
 type Route struct {
@@ -30,7 +31,7 @@ func NewRouter() *mux.Router {
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+		handler = util.Logger(handler, route.Name)
 
 		router.
 			Methods(route.Method).

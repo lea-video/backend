@@ -14,7 +14,9 @@ import (
 	"log"
 	"net/http"
 
-	sw "github.com/lea-video/backend/go"
+	leav "github.com/lea-video/backend/go"
+	leav_m "github.com/lea-video/backend/go/model"
+	util "github.com/lea-video/backend/go/utility"
 )
 
 func main() {
@@ -22,13 +24,15 @@ func main() {
 	test()
 
 	log.Printf("Server started")
-	router := sw.NewRouter()
+	router := leav.NewRouter()
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func test() {
+	util.Init()
+
 	fmt.Println("Marshal empty Playlist")
-	p := sw.NewPlaylist(sw.NewTitle("Playlist 1"))
+	p := leav_m.NewPlaylist(leav_m.NewTitle("Playlist 1"))
 	b, err := json.Marshal(p)
 	if err != nil {
 		panic(err)
@@ -36,10 +40,10 @@ func test() {
 	fmt.Println(string(b))
 
 	fmt.Println("Marshal Playlist with Song and Album")
-	s := sw.NewSong(sw.NewTitle("Test Song"))
-	s.AddCover(sw.NewCelebrity("Cover Artist"), sw.NewMedia(sw.NewTitle("Cover of Test Song")))
+	s := leav_m.NewSong(leav_m.NewTitle("Test Song"))
+	s.AddCover(leav_m.NewCelebrity("Cover Artist"), leav_m.NewMedia(leav_m.NewTitle("Cover of Test Song")))
 	p.AddItem(s)
-	p.AddItem(sw.NewAlbum(sw.NewTitle("Test Album")))
+	p.AddItem(leav_m.NewAlbum(leav_m.NewTitle("Test Album")))
 	b, err = json.Marshal(p)
 	if err != nil {
 		panic(err)
@@ -47,7 +51,7 @@ func test() {
 	fmt.Println(string(b))
 
 	fmt.Println("Unmarshal Playlist with Song and Album")
-	var d sw.Playlist
+	var d leav_m.Playlist
 	err = json.Unmarshal(b, &d)
 	if err != nil {
 		panic(err)

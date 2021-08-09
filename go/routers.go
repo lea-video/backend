@@ -68,4 +68,18 @@ var routes = Routes{
 		"/playlist/{id}",
 		PlaylistIdGet,
 	},
+
+	Route{
+		"UserGet",
+		strings.ToUpper("Get"),
+		"/user",
+		UserGet,
+	},
+
+	Route{
+		"UserLoginPost",
+		strings.ToUpper("Post"),
+		"/user/login",
+		UserLoginPost,
+	},
 }

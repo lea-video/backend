@@ -6,9 +6,17 @@ servers:
   - url: /v1
   - url: https://editor.swagger.io/
 
+tags:
+- name: "user"
+  description: "A User interacting with the service"
+- name: "playable"
+  description: "A Media type that can be played"
+
 paths:
   /user:
     get:
+      tags:
+        - "user"
       responses:
         '200':
           description: Logged in User
@@ -27,6 +35,8 @@ paths:
                     type: string
   /user/login:
     post:
+      tags:
+        - "user"
       requestBody:
         required: true
         content:
@@ -61,6 +71,8 @@ paths:
                     type: string
   /playlist:
     get:
+      tags:
+        - "playable"
       responses:
         '200':
           description: OK
@@ -72,6 +84,8 @@ paths:
                   $ref: '#/components/schemas/Playlist'
   /playlist/{id}:
     get:
+      tags:
+        - "playable"
       parameters:
         - in: path
           name: id

@@ -7,6 +7,58 @@ servers:
   - url: https://editor.swagger.io/
 
 paths:
+  /user:
+    get:
+      responses:
+        '200':
+          description: Logged in User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /user/login:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                result:
+                  type: object
+                  properties:
+                    password:
+                      type: string
+                    username:
+                      type: string
+      responses:
+        '200':
+          description: Logged in User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: invalid error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   /playlist:
     get:
       responses:
@@ -36,8 +88,44 @@ paths:
 
 components:
   schemas:
+# User
+    User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        displayname:
+          type: string
+        email:
+          $ref: '#/components/schemas/EMail'
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
+    Credential:
+      oneOf:
+        - $ref: '#/components/schemas/Password'
+        - $ref: '#/components/schemas/Token'
+    Session:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        isDirectLogin:
+          type: boolean
+    Password:
+      type: object
+      properties:
+        hash:
+          type: string
+        salt:
+          type: string
+    Token:
+      type: string
 # General Stuff
     UUID:
+      type: string
+    EMail:
       type: string
     Track:
       type: object
@@ -58,8 +146,6 @@ components:
           type: integer
         videoEncoding:
           type: string
-    TitleItem:
-      type: object
     Title:
       type: object
       properties:
@@ -98,6 +184,8 @@ components:
     Media:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         tracks:
@@ -122,6 +210,8 @@ components:
     Series:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         seasons:
@@ -131,6 +221,8 @@ components:
     Season:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         series:
@@ -142,6 +234,8 @@ components:
     Movie:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         sequel:
@@ -153,6 +247,8 @@ components:
     Song:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         artists:
@@ -183,6 +279,8 @@ components:
     Album:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         songs:
@@ -192,6 +290,8 @@ components:
     ImageSet:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/UUID'
         title:
           $ref: '#/components/schemas/Title'
         images:

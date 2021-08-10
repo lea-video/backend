@@ -14,8 +14,18 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawPlaylist struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	TagIDs []string `json:"tagIDs,omitempty"`
+
+	ItemIDs []string `json:"itemIDs,omitempty"`
+}
+
 type Playlist struct {
-	Id string `json:"id,omitempty"`
+	*RawPlaylist
 
 	Title *Title `json:"title,omitempty"`
 
@@ -24,17 +34,27 @@ type Playlist struct {
 	Items []*PlaylistItem `json:"items,omitempty"`
 }
 
-type PlaylistItem struct {
+type RawPlaylistItem struct {
+	ID string `json:"id,omitempty"`
+
 	Index int32 `json:"index,omitempty"`
 
 	RemovedAt int32 `json:"removedAt,omitempty"`
 
 	AddedAt int32 `json:"addedAt,omitempty"`
 
+	ItemID string `json:"itemID,omitempty"`
+}
+
+type PlaylistItem struct {
+	*RawPlaylistItem
+
 	Item Playable `json:"item,omitempty"`
 }
 
 type playlistItemJSON struct {
+	ID string `json:"id,omitempty"`
+
 	Index int32 `json:"index,omitempty"`
 
 	RemovedAt int32 `json:"removedAt,omitempty"`
@@ -61,6 +81,7 @@ func (p *PlaylistItem) MarshalJSON() ([]byte, error) {
 
 	// Map to intermediate type
 	data := playlistItemJSON{
+		ID:        p.ID,
 		Index:     p.Index,
 		RemovedAt: p.RemovedAt,
 		AddedAt:   p.AddedAt,
@@ -78,9 +99,12 @@ func (p *PlaylistItem) UnmarshalJSON(body []byte) error {
 	}
 
 	// Map to PlaylistItem
-	p.Index = data.Index
-	p.RemovedAt = data.RemovedAt
-	p.AddedAt = data.AddedAt
+	p.RawPlaylistItem = &RawPlaylistItem{
+		ID:        data.ID,
+		Index:     data.Index,
+		RemovedAt: data.RemovedAt,
+		AddedAt:   data.AddedAt,
+	}
 	p.Item, err = UnmarshalPlayable(data.Item)
 
 	return err
@@ -88,7 +112,12 @@ func (p *PlaylistItem) UnmarshalJSON(body []byte) error {
 
 func NewPlaylist(title *Title) *Playlist {
 	return &Playlist{
-		Id:    util.NewID(),
+		RawPlaylist: &RawPlaylist{
+			ID:      util.NewID(),
+			TitleID: title.getID(),
+			TagIDs:  make([]string, 0),
+			ItemIDs: make([]string, 0),
+		},
 		Title: title,
 		Tags:  make([]*Tag, 0),
 		Items: make([]*PlaylistItem, 0),
@@ -97,7 +126,12 @@ func NewPlaylist(title *Title) *Playlist {
 
 func (t *Playlist) AddItem(p Playable) {
 	e := PlaylistItem{
+		RawPlaylistItem: &RawPlaylistItem{
+			ID:     util.NewID(),
+			ItemID: p.getID(),
+		},
 		Item: p,
 	}
+	t.ItemIDs = append(t.ItemIDs, e.ID)
 	t.Items = append(t.Items, &e)
 }

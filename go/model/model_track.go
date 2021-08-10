@@ -9,7 +9,7 @@
 package model
 
 type Track struct {
-	Id string `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 
 	Filename string `json:"filename,omitempty"`
 

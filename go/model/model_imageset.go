@@ -12,8 +12,16 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawImageSet struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	ImageIDs []string `json:"imageIDs,omitempty"`
+}
+
 type ImageSet struct {
-	Id string `json:"id,omitempty"`
+	*RawImageSet
 
 	Title *Title `json:"title,omitempty"`
 
@@ -22,14 +30,18 @@ type ImageSet struct {
 
 func NewImageSet(title *Title) *ImageSet {
 	return &ImageSet{
-		Id:     util.NewID(),
+		RawImageSet: &RawImageSet{
+			ID:       util.NewID(),
+			TitleID:  title.getID(),
+			ImageIDs: make([]string, 0),
+		},
 		Title:  title,
 		Images: make([]*Media, 0),
 	}
 }
 
 func (is *ImageSet) getID() string {
-	return is.Id
+	return is.ID
 }
 
 func (*ImageSet) getType() string {

@@ -12,15 +12,23 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
-type Title struct {
-	Id string `json:"id,omitempty"`
+type RawTitle struct {
+	ID string `json:"id,omitempty"`
 
 	Default string `json:"default,omitempty"`
+
+	OtherIDs []string `json:"otherIDs,omitempty"`
+}
+
+type Title struct {
+	*RawTitle
 
 	Other []*TitleItem `json:"other,omitempty"`
 }
 
 type TitleItem struct {
+	ID string `json:"id,omitempty"`
+
 	Title string `json:"title,omitempty"`
 
 	Language string `json:"language,omitempty"`
@@ -28,17 +36,22 @@ type TitleItem struct {
 
 func NewTitle(defTitle string) *Title {
 	return &Title{
-		Id:      util.NewID(),
-		Default: defTitle,
-		Other:   make([]*TitleItem, 0),
+		RawTitle: &RawTitle{
+			ID:       util.NewID(),
+			Default:  defTitle,
+			OtherIDs: make([]string, 0),
+		},
+		Other: make([]*TitleItem, 0),
 	}
 }
 
 func (t *Title) AddTranslation(title, lang string) {
 	e := TitleItem{
+		ID:       util.NewID(),
 		Title:    title,
 		Language: lang,
 	}
+	t.OtherIDs = append(t.OtherIDs, e.ID)
 	t.Other = append(t.Other, &e)
 }
 
@@ -49,4 +62,8 @@ func (t *Title) GetTitle(lang string) string {
 		}
 	}
 	return t.Default
+}
+
+func (t *Title) getID() string {
+	return t.ID
 }

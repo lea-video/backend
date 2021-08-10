@@ -12,8 +12,16 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawAlbum struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	SongIDs []string `json:"songIDs,omitempty"`
+}
+
 type Album struct {
-	Id string `json:"id,omitempty"`
+	*RawAlbum
 
 	Title *Title `json:"title,omitempty"`
 
@@ -22,14 +30,18 @@ type Album struct {
 
 func NewAlbum(title *Title) *Album {
 	return &Album{
-		Id:    util.NewID(),
+		RawAlbum: &RawAlbum{
+			ID:      util.NewID(),
+			TitleID: title.getID(),
+			SongIDs: make([]string, 0),
+		},
 		Title: title,
 		Songs: make([]*Song, 0),
 	}
 }
 
 func (a *Album) getID() string {
-	return a.Id
+	return a.ID
 }
 
 func (*Album) getType() string {

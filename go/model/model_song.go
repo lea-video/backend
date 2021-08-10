@@ -12,8 +12,26 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawSong struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	ArtistIDs []string `json:"artistIDs,omitempty"`
+
+	FeaturingIDs []string `json:"featuringIDs,omitempty"`
+
+	VariantIDs []string `json:"variantIDs,omitempty"`
+
+	CoverIDs []string `json:"coverIDs,omitempty"`
+
+	CleanAudioID string `json:"cleanAudioID,omitempty"`
+
+	DefaultVideoID string `json:"defaultVideoID,omitempty"`
+}
+
 type Song struct {
-	Id string `json:"id,omitempty"`
+	*RawSong
 
 	Title *Title `json:"title,omitempty"`
 
@@ -30,7 +48,17 @@ type Song struct {
 	DefaultVideo *Media `json:"defaultVideo,omitempty"`
 }
 
+type RawSongCover struct {
+	ID string `json:"id,omitempty"`
+
+	ArtistID string `json:"artistID,omitempty"`
+
+	CoverID string `json:"coverID,omitempty"`
+}
+
 type SongCover struct {
+	*RawSongCover
+
 	Artist *Celebrity `json:"artist,omitempty"`
 
 	Cover *Media `json:"cover,omitempty"`
@@ -38,7 +66,14 @@ type SongCover struct {
 
 func NewSong(title *Title) *Song {
 	return &Song{
-		Id:        util.NewID(),
+		RawSong: &RawSong{
+			ID:           util.NewID(),
+			TitleID:      title.getID(),
+			ArtistIDs:    make([]string, 0),
+			FeaturingIDs: make([]string, 0),
+			VariantIDs:   make([]string, 0),
+			CoverIDs:     make([]string, 0),
+		},
 		Title:     title,
 		Artists:   make([]*Celebrity, 0),
 		Featuring: make([]*Celebrity, 0),
@@ -48,7 +83,7 @@ func NewSong(title *Title) *Song {
 }
 
 func (s *Song) getID() string {
-	return s.Id
+	return s.ID
 }
 
 func (*Song) getType() string {
@@ -56,5 +91,15 @@ func (*Song) getType() string {
 }
 
 func (s *Song) AddCover(c *Celebrity, m *Media) {
-	s.Covers = append(s.Covers, &SongCover{Artist: c, Cover: m})
+	sc := &SongCover{
+		RawSongCover: &RawSongCover{
+			ID:       util.NewID(),
+			ArtistID: c.getID(),
+			CoverID:  m.getID(),
+		},
+		Artist: c,
+		Cover:  m,
+	}
+	s.CoverIDs = append(s.CoverIDs, sc.ID)
+	s.Covers = append(s.Covers, sc)
 }

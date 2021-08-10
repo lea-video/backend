@@ -12,18 +12,31 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
-type Celebrity struct {
-	Id string `json:"id,omitempty"`
+type RawCelebrity struct {
+	ID string `json:"id,omitempty"`
 
 	Name string `json:"name,omitempty"`
+
+	TagIDs []string `json:"tagIDs,omitempty"`
+}
+
+type Celebrity struct {
+	*RawCelebrity
 
 	Tags []*Tag `json:"tags,omitempty"`
 }
 
 func NewCelebrity(name string) *Celebrity {
 	return &Celebrity{
-		Id:   util.NewID(),
-		Name: name,
+		RawCelebrity: &RawCelebrity{
+			ID:     util.NewID(),
+			Name:   name,
+			TagIDs: make([]string, 0),
+		},
 		Tags: make([]*Tag, 0),
 	}
+}
+
+func (c *Celebrity) getID() string {
+	return c.ID
 }

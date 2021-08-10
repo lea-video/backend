@@ -8,8 +8,19 @@
  */
 package model
 
+import (
+	util "github.com/lea-video/backend/go/utility"
+)
+
 type Tag struct {
-	Id string `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 
 	Title *Title `json:"Title,omitempty"`
+}
+
+func NewTag(title *Title) *Tag {
+	return &Tag{
+		ID:    util.NewID(),
+		Title: title,
+	}
 }

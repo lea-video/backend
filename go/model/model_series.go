@@ -12,8 +12,16 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawSeries struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	SeasonIDs []string `json:"seasonIDs,omitempty"`
+}
+
 type Series struct {
-	Id string `json:"id,omitempty"`
+	*RawSeries
 
 	Title *Title `json:"title,omitempty"`
 
@@ -22,14 +30,18 @@ type Series struct {
 
 func NewSeries(title *Title) *Series {
 	return &Series{
-		Id:      util.NewID(),
+		RawSeries: &RawSeries{
+			ID:        util.NewID(),
+			TitleID:   title.getID(),
+			SeasonIDs: make([]string, 0),
+		},
 		Title:   title,
 		Seasons: make([]*Season, 0),
 	}
 }
 
 func (s *Series) getID() string {
-	return s.Id
+	return s.ID
 }
 
 func (*Series) getType() string {

@@ -8,12 +8,18 @@
  */
 package model
 
-type User struct {
-	Id string `json:"id,omitempty"`
+type RawUser struct {
+	ID string `json:"id,omitempty"`
 
 	Displayname string `json:"displayname,omitempty"`
 
 	Email string `json:"email,omitempty"`
+
+	Credentials []string `json:"credentialIDs,omitempty"`
+}
+
+type User struct {
+	*RawUser
 
 	Credentials []Credential `json:"credentials,omitempty"`
 }

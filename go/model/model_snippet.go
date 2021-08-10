@@ -8,36 +8,53 @@
  */
 package model
 
-type Snippet struct {
-	*Media
+type RawSnippet struct {
+	*RawMedia
 
-	Parent *Media `json:"parent,omitempty"`
+	ParentID string `json:"parentID,omitempty"`
 
 	Starttime int32 `json:"starttime,omitempty"`
 
 	Length int32 `json:"length,omitempty"`
 }
 
+type Snippet struct {
+	*Media
+	*RawSnippet
+
+	Parent *Media `json:"parent,omitempty"`
+}
+
 func (parent *Media) NewSnippet(title *Title, starttime, length int32) *Snippet {
+	m := NewMedia(title)
 	return &Snippet{
-		Media:     NewMedia(title),
-		Parent:    parent,
-		Starttime: starttime,
-		Length:    length,
+		RawSnippet: &RawSnippet{
+			RawMedia:  m.RawMedia,
+			ParentID:  parent.getID(),
+			Starttime: starttime,
+			Length:    length,
+		},
+		Media:  NewMedia(title),
+		Parent: parent,
 	}
 }
 
 func (snip *Snippet) NewSnippet(title *Title, starttime, length int32) *Snippet {
+	m := NewMedia(title)
 	return &Snippet{
-		Media:     NewMedia(title),
-		Parent:    snip.Parent,
-		Starttime: snip.Starttime + starttime,
-		Length:    length,
+		RawSnippet: &RawSnippet{
+			RawMedia:  m.RawMedia,
+			ParentID:  snip.Parent.getID(),
+			Starttime: snip.Starttime + starttime,
+			Length:    length,
+		},
+		Media:  NewMedia(title),
+		Parent: snip.Parent,
 	}
 }
 
 func (s *Snippet) getID() string {
-	return s.Parent.getID()
+	return s.Media.getID()
 }
 
 func (*Snippet) getType() string {

@@ -16,7 +16,6 @@ import (
 
 	leav "github.com/lea-video/backend/go"
 	leav_m "github.com/lea-video/backend/go/model"
-	util "github.com/lea-video/backend/go/utility"
 )
 
 func main() {
@@ -29,7 +28,7 @@ func main() {
 }
 
 func test() {
-	util.Init()
+	leav.Initialise()
 
 	fmt.Println("Marshal empty Playlist")
 	p := leav_m.NewPlaylist(leav_m.NewTitle("Playlist 1"))

@@ -12,8 +12,18 @@ import (
 	util "github.com/lea-video/backend/go/utility"
 )
 
+type RawMovie struct {
+	ID string `json:"id,omitempty"`
+
+	TitleID string `json:"titleID,omitempty"`
+
+	SequelID string `json:"sequelID,omitempty"`
+
+	cutIDs []string `json:"cutIDs,omitempty"`
+}
+
 type Movie struct {
-	Id string `json:"id,omitempty"`
+	*RawMovie
 
 	Title *Title `json:"title,omitempty"`
 
@@ -24,14 +34,18 @@ type Movie struct {
 
 func NewMovie(title *Title) *Movie {
 	return &Movie{
-		Id:    util.NewID(),
+		RawMovie: &RawMovie{
+			ID:      util.NewID(),
+			TitleID: title.getID(),
+			cutIDs:  make([]string, 0),
+		},
 		Title: title,
 		Cuts:  make([]*Media, 0),
 	}
 }
 
 func (m *Movie) getID() string {
-	return m.Id
+	return m.ID
 }
 
 func (*Movie) getType() string {

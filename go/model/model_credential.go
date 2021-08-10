@@ -8,7 +8,9 @@
  */
 package model
 
+import "net/http"
+
 type Credential interface {
-	isValid() bool
-	getSession() *Session
+	isValid(*http.Request) bool
+	getSession(*http.Request) *Session
 }

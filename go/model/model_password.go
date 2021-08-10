@@ -8,18 +8,20 @@
  */
 package model
 
+import "net/http"
+
 type Password struct {
 	Hash string `json:"hash,omitempty"`
 
 	Salt string `json:"salt,omitempty"`
 }
 
-func (p *Password) isValid() bool {
+func (p *Password) isValid(r *http.Request) bool {
 	// TODO: implement
 	return false
 }
 
-func (p *Password) getSession() *Session {
+func (p *Password) getSession(r *http.Request) *Session {
 	// TODO: implement
 	return nil
 }

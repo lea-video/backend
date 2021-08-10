@@ -8,16 +8,18 @@
  */
 package model
 
+import "net/http"
+
 type Token struct {
 	Token string `json:"token,omitempty"`
 }
 
-func (t *Token) isValid() bool {
+func (t *Token) isValid(r *http.Request) bool {
 	// TODO: implement
 	return false
 }
 
-func (t *Token) getSession() *Session {
+func (t *Token) getSession(r *http.Request) *Session {
 	// TODO: implement
 	return nil
 }

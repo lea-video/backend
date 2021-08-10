@@ -15,12 +15,14 @@ import (
 	"net/http"
 
 	leav "github.com/lea-video/backend/go"
+	"github.com/lea-video/backend/go/cache"
 	leav_m "github.com/lea-video/backend/go/model"
 )
 
 func main() {
 	// TODO: delete
 	test()
+	cache.Test()
 
 	log.Printf("Server started")
 	router := leav.NewRouter()
